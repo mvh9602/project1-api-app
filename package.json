@@ -1,0 +1,26 @@
+{
+  "name": "project1-api-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node ./src/server.js",
+    "pretest": "eslint ./src --fix",
+    "test": "echo \"Tests complete\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mvh9602/project1-api-app.git"
+  },
+  "author": "Matt Hoffman",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/mvh9602/project1-api-app/issues"
+  },
+  "homepage": "https://github.com/mvh9602/project1-api-app#readme",
+  "dependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-plugin-import": "^2.20.1"
+  }
+}
