@@ -14,23 +14,32 @@
             console.dir(obj);
             
             if(obj.message) {
+                /*
               const p = document.createElement('p');
               p.textContent = `Message: ${obj.message}`;
               content.appendChild(p);
+              */
             }
             
-            if(obj.users) {
-              const userList = document.createElement('p');
-              const users = JSON.stringify(obj.users);
-              userList.textContent = users;
-              content.appendChild(userList);
+            if(obj.entries) {
+              const entryList = document.createElement('p');
+              let entries = `<a href='${obj.entries.link}>`;
+              entries = `${entries}${obj.entries.name}</a>`;
+              entries = `${entries}<p>${obj.entries.desc}</p>`;
+              entries = `${entries}<p>Genre: ${obj.entries.genre}</p>`;
+              entryList.innerHTML = entries;
+              content.appendChild(entryList);
             }
         }
     };
 
+    const displayUsers = () => {
+        
+    };
+
     const handleResponse = (xhr) => {
       const content = document.querySelector('#content');
-      
+      /*
       switch(xhr.status) {
         case 200: //success
           content.innerHTML = `<b>Success</b>`;
@@ -51,7 +60,7 @@
           content.innerHTML = `Error code not implemented by client.`;
           break;
       }
-
+      */
       parseJSON(xhr, content);
     };
 
@@ -62,7 +71,9 @@
       const nameMethod = nameForm.getAttribute('method');
         
       const nameField = nameForm.querySelector('#nameField');
-      const ageField = nameForm.querySelector('#ageField');
+      const linkField = nameForm.querySelector('#linkField');
+      const descField = nameForm.querySelector('#descField');
+      const genreField = nameForm.querySelector('#genreField');
       
       const xhr = new XMLHttpRequest();
       xhr.open(nameMethod, nameAction);
@@ -71,10 +82,16 @@
       xhr.setRequestHeader ('Accept', 'application/json');
       
       xhr.onload = () => handleResponse(xhr);
+        
+      let descFormat = "";
+      if(descField.value)
+          descFormat = `${descField.value}`;
       
-      const formData = `name=${nameField.value}&age=${ageField.value}`;
+      const formData = `name=${nameField.value}&link=${linkField.value}&desc=${descFormat}&genre=${genreField.value}`;
       
       xhr.send(formData);
+        
+      sendAjax(e, urlField.value, methodSelect.value);
     
       return false;
     };
@@ -113,10 +130,18 @@
   <section id="top">
     <h3>POST Status Code Tests</h3>
     <form id="nameForm" action="/addUser" method="post">
+      <label for="link">Link: </label>
+      <input id="linkField" type="text" name="link" />
       <label for="name">Name: </label>
       <input id="nameField" type="text" name="name" />
-      <label for="age">Age: </label>
-      <input id="ageField" type="number" name="age" min="0" max="100" step="1"/>
+      <label for="desc">Description: </label>
+      <input id="descField" type="text" name="desc"/>
+      <label for="genre">Genre: </label>
+      <select id='genreField' name="genre">
+        <option value='game'>Game music</option>
+        <option value='electronic'>Electronic</option>
+        <option value='eurobeat'>Eurobeat</option>
+      </select>
       <input type="submit" value="Add User" />
     </form>
     <form id="userForm" action="/getUsers" method="get">

@@ -1,4 +1,4 @@
-const users = {};
+const entries = {};
 
 const respondJSON = (request, response, status, object) => {
   response.writeHead(status, { 'Content-Type': 'application/json' });
@@ -13,7 +13,7 @@ const respondJSONMeta = (request, response, status) => {
 
 const getUsers = (request, response) => {
   const responseJSON = {
-    users,
+    entries,
   };
 
   respondJSON(request, response, 200, responseJSON);
@@ -37,21 +37,23 @@ const addUser = (request, response, body) => {
     message: 'Name and age are both required.',
   };
 
-  if (!body.name || !body.age) {
+  if (!body.name || !body.link || !body.genre) {
     responseJSON.id = 'missingParams';
     return respondJSON(request, response, 400, responseJSON);
   }
 
   let responseCode = 201;
 
-  if (users[body.name]) {
+  if (entries[body.name]) {
     responseCode = 204;
   } else {
-    users[body.name] = {};
+    entries[body.name] = {};
   }
 
-  users[body.name].name = body.name;
-  users[body.name].age = body.age;
+  entries[body.name].name = body.name;
+  entries[body.name].link = body.link;
+  entries[body.name].desc = body.desc;
+  entries[body.name].genre = body.genre;
 
   if (responseCode === 201) {
     responseJSON.message = 'Created Successfully';
