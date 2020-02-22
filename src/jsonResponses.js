@@ -11,7 +11,7 @@ const respondJSONMeta = (request, response, status) => {
   response.end();
 };
 
-const getUsers = (request, response) => {
+const getEntries = (request, response) => {
   const responseJSON = {
     entries,
   };
@@ -19,7 +19,7 @@ const getUsers = (request, response) => {
   respondJSON(request, response, 200, responseJSON);
 };
 
-const getUsersMeta = (request, response) => respondJSONMeta(request, response, 200);
+const getEntriesMeta = (request, response) => respondJSONMeta(request, response, 200);
 
 const notReal = (request, response) => {
   const responseJSON = {
@@ -32,7 +32,7 @@ const notReal = (request, response) => {
 
 const notRealMeta = (request, response) => respondJSONMeta(request, response, 404);
 
-const addUser = (request, response, body) => {
+const addEntry = (request, response, body) => {
   const responseJSON = {
     message: 'Name and age are both required.',
   };
@@ -63,9 +63,9 @@ const addUser = (request, response, body) => {
 };
 
 module.exports = {
-  getUsers,
-  getUsersMeta,
-  addUser,
+  getEntries,
+  getEntriesMeta,
+  addEntry,
   notReal,
   notRealMeta,
 };

@@ -13,17 +13,17 @@ const urlStruct = {
   GET: {
     '/': htmlHandler.getIndex,
     '/style.css': htmlHandler.getCSS,
-    '/getUsers': jsonHandler.getUsers,
+    '/getEntries': jsonHandler.getEntries,
     notFound: jsonHandler.notReal,
   },
   HEAD: {
-    '/getUsers': jsonHandler.getUsersMeta,
+    '/getEntries': jsonHandler.getEntriesMeta,
     notFound: jsonHandler.notRealMeta,
   },
 };
 
 const handlePost = (request, response, parsedUrl) => {
-  if (parsedUrl.pathname === '/addUser') {
+  if (parsedUrl.pathname === '/addEntry') {
     const res = response;
 
     const body = [];
@@ -42,7 +42,7 @@ const handlePost = (request, response, parsedUrl) => {
       const bodyString = Buffer.concat(body).toString();
       const bodyParams = query.parse(bodyString);
 
-      jsonHandler.addUser(request, res, bodyParams);
+      jsonHandler.addEntry(request, res, bodyParams);
     });
   }
 };
