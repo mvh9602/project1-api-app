@@ -30,14 +30,13 @@
                     entryList.appendChild(listNode);
                     
                 }
-
             }
         }
     };
 
     const handleResponse = (xhr) => {
       const content = document.querySelector('#content');
-      
+
       parseJSON(xhr, content);
     };
 
