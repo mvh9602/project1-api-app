@@ -48,10 +48,12 @@ const handlePost = (request, response, parsedUrl) => {
 };
 
 const handleGet = (request, response, parsedUrl) => {
+  const params = query.parse(parsedUrl.query);
+
   if (urlStruct[request.method][parsedUrl.pathname]) {
-    urlStruct[request.method][parsedUrl.pathname](request, response);
+    urlStruct[request.method][parsedUrl.pathname](request, response, params);
   } else {
-    urlStruct[request.method].notFound(request, response);
+    urlStruct[request.method].notFound(request, response, params);
   }
 };
 

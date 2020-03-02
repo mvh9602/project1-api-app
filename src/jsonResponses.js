@@ -1,4 +1,29 @@
-const entries = {};
+const entries = {
+  midterm: {
+    name: 'midterm',
+    link: 'https://people.rit.edu/mvh9602/media/Electronic.wav',
+    desc: 'Midterm project for Electronic Music Production 2. A synthy electronic song with my most robust percussion section I\'ve ever made.',
+    genre: 'electronic',
+  },
+  hardbass: {
+    name: 'hardbass',
+    link: 'https://people.rit.edu/mvh9602/media/Hardbass.wav',
+    desc: 'Final project for Electronic Music Production. An experiment in exploring a popular russian eurobeat genre.',
+    genre: 'eurobeat',
+  },
+  normalDimension: {
+    name: 'normalDimension',
+    link: 'https://people.rit.edu/mvh9602/media/MultiverseNormal.wav',
+    desc: 'Song for student project \'Multiverse Inc\'. This song is used for an office being corrupted a dimension shifting device.',
+    genre: 'game',
+  },
+  westernDimension: {
+    name: 'westernDimension',
+    link: 'https://people.rit.edu/mvh9602/media/MultiverseWestern.wav',
+    desc: 'Song for student project \'Multiverse Inc\'. This song is used for a dimension comprised of western movie tropes.',
+    genre: 'game',
+  },
+};
 
 const respondJSON = (request, response, status, object) => {
   response.writeHead(status, { 'Content-Type': 'application/json' });
@@ -11,12 +36,33 @@ const respondJSONMeta = (request, response, status) => {
   response.end();
 };
 
-const getEntries = (request, response) => {
-  const responseJSON = {
+const getEntries = (request, response, params) => {
+  let responseJSON = {
     entries,
   };
 
-  respondJSON(request, response, 200, responseJSON);
+
+  if (params == null) {
+    console.log(params);
+    return respondJSON(request, response, 200, responseJSON);
+  }
+
+  if (params.genre) {
+    responseJSON = {};
+    responseJSON.entries = {};
+    for (const [key, value] of Object.entries(entries)) {
+      if (value.genre === params.genre) {
+        responseJSON.entries[key] = value;
+      }
+    }
+
+    if (Object.keys(responseJSON.entries) <= 0) {
+      responseJSON.message = 'No entries found matching genre query parameter.';
+      responseJSON.id = 'badRequest';
+      return respondJSON(request, response, 400, responseJSON);
+    }
+  }
+  return respondJSON(request, response, 200, responseJSON);
 };
 
 const getEntriesMeta = (request, response) => respondJSONMeta(request, response, 200);
@@ -27,7 +73,7 @@ const notReal = (request, response) => {
     id: 'notReal',
   };
 
-  respondJSON(request, response, 404, responseJSON);
+  return respondJSON(request, response, 404, responseJSON);
 };
 
 const notRealMeta = (request, response) => respondJSONMeta(request, response, 404);
